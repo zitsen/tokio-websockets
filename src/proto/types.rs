@@ -44,7 +44,7 @@ impl TryFrom<u8> for OpCode {
             8 => Ok(Self::Close),
             9 => Ok(Self::Ping),
             10 => Ok(Self::Pong),
-            _ => Err(ProtocolError::InvalidOpcode),
+            code => Err(ProtocolError::InvalidOpcode(code)),
         }
     }
 }

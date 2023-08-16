@@ -11,7 +11,7 @@ pub enum ProtocolError {
     /// An invalid close code has been received.
     InvalidCloseCode,
     /// An invalid opcode was received.
-    InvalidOpcode,
+    InvalidOpcode(u8),
     /// An invalid payload length was received.
     InvalidPayloadLength,
     /// An invalid RSV was received. This is used by extensions, which are
@@ -31,7 +31,7 @@ impl ProtocolError {
         match self {
             ProtocolError::FragmentedControlFrame => "fragmented control frame",
             ProtocolError::InvalidCloseCode => "invalid close code",
-            ProtocolError::InvalidOpcode => "invalid opcode",
+            ProtocolError::InvalidOpcode(_) => "invalid opcode",
             ProtocolError::InvalidPayloadLength => "invalid payload length",
             ProtocolError::InvalidRsv => "invalid extension",
             ProtocolError::InvalidUtf8 => "invalid utf-8",

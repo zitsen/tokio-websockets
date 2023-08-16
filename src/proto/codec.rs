@@ -147,10 +147,13 @@ impl Decoder for WebsocketProtocol {
             }
         } else if self.fragmented_message_opcode == OpCode::Continuation {
             if opcode == OpCode::Continuation {
-                return Err(Error::Protocol(ProtocolError::InvalidOpcode));
+                return Err(Error::Protocol(ProtocolError::InvalidOpcode(opcode.into())));
             }
         } else if opcode != OpCode::Continuation {
-            return Err(Error::Protocol(ProtocolError::InvalidOpcode));
+            match opcode {
+                OpCode::Text | OpCode::Binary => (),
+                _ => return Err(Error::Protocol(ProtocolError::InvalidOpcode(opcode.into()))),
+            }
         }
 
         // Bit 0
